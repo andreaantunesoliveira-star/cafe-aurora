@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Café Aurora</title>
+
+  <style>
+    /* =========================
+       CONFIGURAÇÃO GERAL
+    ========================= */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7efe5;
+      color: #3b2418;
+      line-height: 1.6;
+    }
+
+    /* =========================
+       ANIMAÇÃO DE ENTRADA
+    ========================= */
+
+    @keyframes aparecerSuave {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* =========================
+       CABEÇALHO
+    ========================= */
+
+    header {
+      background-color: #5c3825;
+      color: #ffffff;
+      padding: 24px 18px;
+      text-align: center;
+      animation: aparecerSuave 0.8s ease-out;
+    }
+
+    header h1 {
+      margin-bottom: 16px;
+      font-size: 2rem;
+    }
+
+    /* =========================
+       MENU
+    ========================= */
+
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    nav a {
+      color: #ffffff;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: background-color 0.3s;
+    }
+
+    nav a:hover {
+      background-color: #8a5a3b;
+    }
+
+    /* =========================
+       CONTEÚDO PRINCIPAL
+    ========================= */
+
+    main {
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    section {
+      margin-bottom: 40px;
+      padding: 24px 0;
+    }
+
+    section h2 {
+      margin-bottom: 12px;
+      font-size: 1.7rem;
+    }
+
+    section p {
+      margin-bottom: 10px;
+    }
+
+    /* =========================
+       ÁREA DE DESTAQUE
+    ========================= */
+
+    #inicio {
+      min-height: 430px;
+      margin-left: -16px;
+      margin-right: -16px;
+      padding: 80px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #ffffff;
+      background:
+        linear-gradient(
+          rgba(45, 25, 15, 0.7),
+          rgba(45, 25, 15, 0.7)
+        ),
+        url("https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=80");
+      background-size: cover;
+      background-position: center;
+      animation: aparecerSuave 1s ease-out;
+    }
+
+    #inicio h2 {
+      max-width: 700px;
+      font-size: 2.2rem;
+      margin-bottom: 14px;
+    }
+
+    #inicio p {
+      max-width: 500px;
+      font-size: 1.1rem;
+    }
+
+    /* =========================
+       BOTÕES
+    ========================= */
+
+    button {
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    #botaoCardapio {
+      margin-top: 16px;
+      padding: 12px 20px;
+      border-radius: 30px;
+      background-color: #c47a44;
+      color: #ffffff;
+    }
+
+    #botaoCardapio:hover {
+      background-color: #9f5c2d;
+      transform: translateY(-3px);
+    }
+
+    /* =========================
+       CARDS DO CARDÁPIO
+    ========================= */
+
+    .cardapio-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .card {
+      flex: 1 1 220px;
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(59, 36, 24, 0.12);
+      transition: transform 0.3s, box-shadow 0.3s;
+      animation: aparecerSuave 0.8s ease-out;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 18px rgba(59, 36, 24, 0.2);
+    }
+
+    .card h3 {
+      margin-bottom: 8px;
+      color: #5c3825;
+      font-size: 1.25rem;
+    }
+
+    .card p {
+      margin-bottom: 8px;
+      color: #6d5140;
+    }
+
+    .preco {
+      color: #b45f25 !important;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    /* =========================
+       BOTÕES DOS CARDS
+    ========================= */
+
+    .botaoPedido {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      background-color: #5c3825;
+      color: #ffffff;
+    }
+
+    .botaoPedido:hover {
+      background-color: #8a5a3b;
+      transform: translateY(-2px);
+    }
+
+    /* =========================
+       MENSAGEM DO PEDIDO
+    ========================= */
+
+    #mensagemPedido {
+      display: none;
+      margin-top: 24px;
+      padding: 16px;
+      border-radius: 8px;
+      background-color: #d9efd8;
+      color: #285b2a;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    /* =========================
+       SEÇÃO SOBRE
+    ========================= */
+
+    #sobre {
+      padding: 32px 20px;
+      background-color: #ead8c5;
+      border-radius: 12px;
+      text-align: center;
+      animation: aparecerSuave 1s ease-out;
+    }
+
+    #sobre h2 {
+      color: #5c3825;
+    }
+
+    .sobre-texto {
+      max-width: 700px;
+      margin: 0 auto 24px;
+    }
+
+    .destaques {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .destaque {
+      flex: 1 1 180px;
+      padding: 18px 12px;
+      background-color: #fffaf5;
+      border-radius: 10px;
+      box-shadow: 0 3px 8px rgba(59, 36, 24, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .destaque:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 14px rgba(59, 36, 24, 0.15);
+    }
+
+    .destaque-icone {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 2rem;
+    }
+
+    .destaque h3 {
+      margin-bottom: 6px;
+      color: #5c3825;
+      font-size: 1.1rem;
+    }
+
+    .destaque p {
+      margin-bottom: 0;
+      color: #6d5140;
+      font-size: 0.95rem;
+    }
+
+    /* =========================
+       SEÇÃO DE CONTATO
+    ========================= */
+
+    #contato {
+      padding: 32px 20px;
+      text-align: center;
+      animation: aparecerSuave 1s ease-out;
+    }
+
+    #contato h2 {
+      color: #5c3825;
+    }
+
+    .contato-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .contato-item {
+      flex: 1 1 180px;
+      padding: 18px 12px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 3px 8px rgba(59, 36, 24, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .contato-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 14px rgba(59, 36, 24, 0.15);
+    }
+
+    .contato-icone {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 2rem;
+    }
+
+    .contato-item h3 {
+      margin-bottom: 6px;
+      color: #5c3825;
+      font-size: 1.1rem;
+    }
+
+    .contato-item p {
+      margin-bottom: 0;
+      color: #6d5140;
+      font-size: 0.95rem;
+    }
+
+    .botaoWhatsapp {
+      display: inline-block;
+      margin-top: 24px;
+      padding: 12px 22px;
+      border-radius: 30px;
+      background-color: #25d366;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .botaoWhatsapp:hover {
+      background-color: #1da851;
+      transform: translateY(-3px);
+    }
+
+    /* =========================
+       FORMULÁRIO
+    ========================= */
+
+    .formulario-contato {
+      max-width: 650px;
+      margin: 32px auto 0;
+      padding: 24px;
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(59, 36, 24, 0.12);
+      text-align: left;
+      animation: aparecerSuave 1s ease-out;
+    }
+
+    .campo-formulario {
+      margin-bottom: 18px;
+    }
+
+    .campo-formulario label {
+      display: block;
+      margin-bottom: 6px;
+      color: #5c3825;
+      font-weight: bold;
+    }
+
+    .campo-formulario input,
+    .campo-formulario textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d6bda8;
+      border-radius: 8px;
+      background-color: #fffaf5;
+      color: #3b2418;
+      font: inherit;
+    }
+
+    .campo-formulario input:focus,
+    .campo-formulario textarea:focus {
+      outline: 2px solid #c47a44;
+      border-color: #c47a44;
+    }
+
+    .campo-formulario textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .botaoFormulario {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      background-color: #5c3825;
+      color: #ffffff;
+      font-weight: bold;
+    }
+
+    .botaoFormulario:hover {
+      background-color: #8a5a3b;
+      transform: translateY(-2px);
+    }
+
+    #mensagemFormulario {
+      display: none;
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 8px;
+      background-color: #d9efd8;
+      color: #285b2a;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    /* =========================
+       BOTÃO VOLTAR AO TOPO
+    ========================= */
+
+    #botaoTopo {
+      display: none;
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 10;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: #c47a44;
+      color: #ffffff;
+      font-size: 1.3rem;
+      box-shadow: 0 4px 10px rgba(59, 36, 24, 0.25);
+    }
+
+    #botaoTopo:hover {
+      background-color: #9f5c2d;
+      transform: translateY(-3px);
+    }
+
+    /* =========================
+       RODAPÉ
+    ========================= */
+
+    footer {
+      padding: 20px 16px;
+      background-color: #3b2418;
+      color: #ffffff;
+      text-align: center;
+    }
+
+    /* =========================
+       AJUSTES PARA TELAS PEQUENAS
+    ========================= */
+
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 1.7rem;
+      }
+
+      #inicio {
+        min-height: 400px;
+        padding: 60px 18px;
+      }
+
+      #inicio h2 {
+        font-size: 1.8rem;
+      }
+
+      #inicio p {
+        font-size: 1rem;
+      }
+
+      .destaque,
+      .contato-item {
+        flex-basis: 100%;
+      }
+
+      .formulario-contato {
+        padding: 18px;
+      }
+
+      #botaoTopo {
+        right: 14px;
+        bottom: 14px;
+      }
+    }
+
+    /* =========================
+       REDUÇÃO DE MOVIMENTO
+    ========================= */
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       CABEÇALHO E MENU
+  ========================= -->
+
+  <header>
+    <h1>Café Aurora</h1>
+
+    <nav>
+      <a href="#inicio">Início</a>
+      <a href="#cardapio">Cardápio</a>
+      <a href="#sobre">Sobre</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </header>
+
+  <!-- =========================
+       CONTEÚDO PRINCIPAL
+  ========================= -->
+
+  <main>
+
+    <!-- ÁREA DE DESTAQUE -->
+
+    <section id="inicio">
+      <h2>Bem-vindo ao Café Aurora</h2>
+
+      <p>
+        Um lugar especial para apreciar bons momentos.
+      </p>
+
+      <button id="botaoCardapio" type="button">
+        Ver cardápio
+      </button>
+    </section>
+
+    <!-- SEÇÃO DO CARDÁPIO -->
+
+    <section id="cardapio">
+      <h2>Nosso cardápio</h2>
+
+      <p>
+        Escolha seu café e acompanhe com uma deliciosa opção.
+      </p>
+
+      <div class="cardapio-grid">
+
+        <article class="card">
+          <h3>Espresso</h3>
+
+          <p>
+            Café intenso e encorpado, preparado na hora.
+          </p>
+
+          <p class="preco">R$ 6,00</p>
+
+          <button class="botaoPedido" type="button">
+            Pedir agora
+          </button>
+        </article>
+
+        <article class="card">
+          <h3>Cappuccino especial</h3>
+
+          <p>
+            Espresso cremoso com leite vaporizado e espuma.
+          </p>
+
+          <p class="preco">R$ 12,00</p>
+
+          <button class="botaoPedido" type="button">
+            Pedir agora
+          </button>
+        </article>
+
+        <article class="card">
+          <h3>Latte</h3>
+
+          <p>
+            Café suave com bastante leite vaporizado.
+          </p>
+
+          <p class="preco">R$ 14,00</p>
+
+          <button class="botaoPedido" type="button">
+            Pedir agora
+          </button>
+        </article>
+
+        <article class="card">
+          <h3>Bolo de chocolate</h3>
+
+          <p>
+            Bolo caseiro macio com sabor intenso de chocolate.
+          </p>
+
+          <p class="preco">R$ 10,00</p>
+
+          <button class="botaoPedido" type="button">
+            Pedir agora
+          </button>
+        </article>
+
+        <article class="card">
+          <h3>Cheesecake</h3>
+
+          <p>
+            Sobremesa cremosa com cobertura de frutas vermelhas.
+          </p>
+
+          <p class="preco">R$ 16,00</p>
+
+          <button class="botaoPedido" type="button">
+            Pedir agora
+          </button>
+        </article>
+
+        <article class="card">
+          <h3>Pão de queijo</h3>
+
+          <p>
+            Porção quentinha e crocante por fora.
+          </p>
+
+          <p class="preco">R$ 8,00</p>
+
+          <button class="botaoPedido" type="button">
+            Pedir agora
+          </button>
+        </article>
+
+      </div>
+
+      <div id="mensagemPedido"></div>
+    </section>
+
+    <!-- SEÇÃO SOBRE -->
+
+    <section id="sobre">
+      <h2>Sobre o Café Aurora</h2>
+
+      <p class="sobre-texto">
+        O Café Aurora nasceu para oferecer café de qualidade,
+        doces artesanais e um ambiente acolhedor para todos.
+        Aqui, cada visita é preparada com carinho.
+      </p>
+
+      <div class="destaques">
+
+        <div class="destaque">
+          <span class="destaque-icone">☕</span>
+
+          <h3>Café de qualidade</h3>
+
+          <p>
+            Grãos selecionados e preparados com cuidado.
+          </p>
+        </div>
+
+        <div class="destaque">
+          <span class="destaque-icone">🍰</span>
+
+          <h3>Doces artesanais</h3>
+
+          <p>
+            Receitas especiais feitas para acompanhar seu café.
+          </p>
+        </div>
+
+        <div class="destaque">
+          <span class="destaque-icone">🤎</span>
+
+          <h3>Ambiente acolhedor</h3>
+
+          <p>
+            Um espaço tranquilo para conversar e relaxar.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SEÇÃO DE CONTATO -->
+
+    <section id="contato">
+      <h2>Visite o Café Aurora</h2>
+
+      <p>
+        Será um prazer receber você.
+      </p>
+
+      <div class="contato-grid">
+
+        <div class="contato-item">
+          <span class="contato-icone">📍</span>
+
+          <h3>Endereço</h3>
+
+          <p>
+            Presidente Franco, Paraguai
+          </p>
+        </div>
+
+        <div class="contato-item">
+          <span class="contato-icone">📞</span>
+
+          <h3>Telefone</h3>
+
+          <p>
+            (00) 00000-0000
+          </p>
+        </div>
+
+        <div class="contato-item">
+          <span class="contato-icone">🕒</span>
+
+          <h3>Horário</h3>
+
+          <p>
+            Segunda a sábado<br>
+            8h às 20h
+          </p>
+        </div>
+
+      </div>
+
+      <a
+        class="botaoWhatsapp"
+        href="https://wa.me/595000000000"
+        target="_blank"
+        rel="noopener"
+      >
+        Conversar pelo WhatsApp
+      </a>
+
+      <!-- FORMULÁRIO -->
+
+      <form id="formularioContato" class="formulario-contato">
+
+        <div class="campo-formulario">
+          <label for="nome">Seu nome</label>
+
+          <input
+            type="text"
+            id="nome"
+            name="nome"
+            placeholder="Digite seu nome"
+            required
+          >
+        </div>
+
+        <div class="campo-formulario">
+          <label for="email">Seu e-mail</label>
+
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Digite seu e-mail"
+            required
+          >
+        </div>
+
+        <div class="campo-formulario">
+          <label for="mensagem">Sua mensagem</label>
+
+          <textarea
+            id="mensagem"
+            name="mensagem"
+            placeholder="Escreva sua mensagem"
+            required
+          ></textarea>
+        </div>
+
+        <button class="botaoFormulario" type="submit">
+          Enviar mensagem
+        </button>
+
+        <div id="mensagemFormulario"></div>
+      </form>
+    </section>
+
+  </main>
+
+  <!-- BOTÃO VOLTAR AO TOPO -->
+
+  <button id="botaoTopo" type="button" aria-label="Voltar ao topo">
+    ↑
+  </button>
+
+  <!-- RODAPÉ -->
+
+  <footer>
+    <p>
+      &copy; 2026 Café Aurora. Todos os direitos reservados.
+    </p>
+  </footer>
+
+  <!-- JAVASCRIPT -->
+
+  <script>
+    const botaoCardapio = document.getElementById("botaoCardapio");
+    const secaoCardapio = document.getElementById("cardapio");
+    const mensagemPedido = document.getElementById("mensagemPedido");
+    const botoesPedido = document.querySelectorAll(".botaoPedido");
+
+    const formularioContato =
+      document.getElementById("formularioContato");
+
+    const mensagemFormulario =
+      document.getElementById("mensagemFormulario");
+
+    const campoNome = document.getElementById("nome");
+    const botaoTopo = document.getElementById("botaoTopo");
+
+    botaoCardapio.addEventListener("click", function() {
+      secaoCardapio.scrollIntoView({
+        behavior: "smooth"
+      });
+    });
+
+    botoesPedido.forEach(function(botao) {
+      botao.addEventListener("click", function() {
+        const card = botao.closest(".card");
+        const nomeProduto = card.querySelector("h3").textContent;
+
+        mensagemPedido.textContent =
+          "Você escolheu: " + nomeProduto +
+          ". Em breve vamos confirmar seu pedido!";
+
+        mensagemPedido.style.display = "block";
+      });
+    });
+
+    formularioContato.addEventListener("submit", function(evento) {
+      evento.preventDefault();
+
+      const nome = campoNome.value;
+
+      mensagemFormulario.textContent =
+        "Obrigado, " + nome +
+        "! Recebemos sua mensagem e entraremos em contato.";
+
+      mensagemFormulario.style.display = "block";
+
+      formularioContato.reset();
+    });
+
+    window.addEventListener("scroll", function() {
+      if (window.scrollY > 400) {
+        botaoTopo.style.display = "block";
+      } else {
+        botaoTopo.style.display = "none";
+      }
+    });
+
+    botaoTopo.addEventListener("click", function() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
+  </script>
+
+</body>
+</html>
